@@ -1097,25 +1097,4 @@
     </script>
 </body>
 </html>
-roductModal();
-            window.open(whatsappUrl, '_blank');
-        }
 
-        // --- 8. UTILS ---
-        let toastTimeout;
-        function showMsg(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        // Initialize App
-        renderProducts(products);
-        updateCartUI();
-
-    </script>
-</body>
-</html>
