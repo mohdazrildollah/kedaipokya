@@ -1,0 +1,1121 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>DKetapang Chalet | Tempahan</title>
+    <style>
+        /* === CSS VARIABLES & RESET === */
+        :root {
+            --primary: #00B14F; 
+            --primary-hover: #009944; 
+            --bg-color: #F1F1F2;
+            --card-bg: #FFFFFF;
+            --text-main: #161823;
+            --text-muted: #8A8B91;
+            --border-color: #E3E3E4;
+            --success: #25D366; 
+            --star-color: #FFD700;
+        }
+
+         {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #E5E5E5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* === APP CONTAINER (Mobile-First) === */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background-color: var(--bg-color);
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 420px) {
+            .app-container { box-shadow: none; }
+        }
+
+        /* === HEADER === */
+        header {
+            background: #fff;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-logo svg {
+            fill: var(--primary);
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #F1F1F2;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus-within {
+            background: #EAEAEB;
+            border: 1px solid #D0D0D2;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            margin-left: 8px;
+            font-size: 13px;
+        }
+
+        /* === MAIN CONTENT === */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            padding-bottom: 20px;
+        }
+        main::-webkit-scrollbar { display: none; }
+
+        /* === PROMO BANNER === */
+        .hero-banner {
+            margin: 12px 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #00C964, #00B14F); 
+            color: white;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 177, 79, 0.3); 
+        }
+        
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="2" fill="white" fill-opacity="0.2"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .hero-banner h2 { font-size: 20px; margin-bottom: 6px; font-weight: 800; z-index: 1; line-height: 1.2; }
+        .hero-banner p { font-size: 13px; opacity: 0.9; z-index: 1; }
+        .hero-banner .shop-now {
+            margin-top: 15px;
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            width: fit-content;
+            z-index: 1;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* === CATEGORIES === */
+        .categories-wrapper {
+            display: flex;
+            overflow-x: auto;
+            padding: 5px 15px 15px 15px;
+            gap: 10px;
+            scrollbar-width: none;
+        }
+        .categories-wrapper::-webkit-scrollbar { display: none; }
+        
+        .category-btn {
+            padding: 8px 18px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .category-btn.active {
+            background: var(--text-main);
+            color: #fff;
+            border-color: var(--text-main);
+        }
+
+        /* === PRODUCT GRID === */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 15px 15px 15px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            background: #EAEAEB;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-overlay {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            pointer-events: none;
+        }
+
+        .badge-overlay svg { width: 10px; height: 10px; fill: #FFD700; }
+
+        .product-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .product-title {
+            font-size: 13px;
+            font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            min-height: 34px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .original-price {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        /* === CHALET INFO SECTION === */
+        .info-section {
+            background: #fff;
+            margin: 0 15px 15px 15px;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .info-section h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-section h3 svg {
+            stroke: var(--primary);
+        }
+        .info-block {
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .info-block:last-child {
+            margin-bottom: 0;
+        }
+        .info-block h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .info-block ul {
+            list-style: none;
+        }
+        .info-block ul li {
+            margin-bottom: 4px;
+        }
+        .info-block ul li strong {
+            font-weight: 600;
+        }
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        /* === MAP SECTION === */
+        .map-section {
+            background: #fff;
+            margin: 0 15px 15px 15px;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .map-section h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .map-section h3 svg {
+            stroke: var(--primary);
+        }
+        .map-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #EAEAEB;
+        }
+
+        /* === REVIEWS SECTION === */
+        .reviews-section {
+            background: #fff;
+            margin: 0 15px 15px 15px;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .reviews-section h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            font-size: 26px;
+            color: #E3E3E4;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .star-rating span {
+            transition: color 0.2s;
+        }
+        .star-rating span.active {
+            color: var(--star-color);
+        }
+
+        .review-form input, .review-form textarea {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            background: #F8F8F8;
+            font-family: inherit;
+        }
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+        .review-form textarea {
+            resize: none;
+            height: 70px;
+        }
+        .review-submit-btn {
+            background: var(--text-main);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .review-submit-btn:active { background: #000; }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .review-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .reviewer-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .review-stars {
+            color: var(--star-color);
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .review-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* === BOTTOM NAV === */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+            background: #fff;
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            z-index: 90;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+            width: 60px;
+        }
+
+        .nav-item.active { color: var(--text-main); font-weight: 600; }
+        .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .nav-item.active svg { fill: currentColor; stroke: none; }
+
+        /* === FULLSCREEN PRODUCT MODAL (IMAGE + FORM) === */
+        .product-modal {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            z-index: 1001;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .product-modal.open { transform: translateY(0); }
+        .pm-header { 
+            padding: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-color); 
+            background: #fff;
+            font-weight: 700;
+        }
+        .close-btn {
+            background: #F1F1F2;
+            border: none;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .pm-content { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+        
+        .pm-gallery { 
+            display: flex; 
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            scrollbar-width: none; 
+            background: #000;
+        }
+        .pm-gallery::-webkit-scrollbar { display: none; }
+        .pm-gallery img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: contain; 
+            scroll-snap-align: start; 
+            flex-shrink: 0; 
+        }
+
+        .pm-details { padding: 20px; }
+        .pm-title { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
+        .pm-price { font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+        
+        .pm-form { display: flex; flex-direction: column; gap: 15px; }
+        .pm-form-group { display: flex; flex-direction: column; gap: 6px; }
+        .pm-form-group label { font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .pm-form-group input { 
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 14px; 
+            outline: none;
+            background: #F8F8F8;
+        }
+        .pm-form-group input:focus { border-color: var(--primary); background: #fff; }
+
+        .pm-submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        /* === TOAST NOTIFICATION === */
+        .toast {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(22, 24, 35, 0.85);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 500;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+            white-space: nowrap;
+        }
+        .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="brand-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>
+                DKetapang
+            </div>
+            <div class="search-bar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="search-input" placeholder="Cari bilik atau pakej...">
+            </div>
+        </header>
+
+        <!-- MAIN FEED -->
+        <main>
+            <!-- BANNER -->
+            <section class="hero-banner">
+                <h2>Cuti-Cuti Pantai!<br>Diskaun up to 20%</h2>
+                <p>Tempah sekarang sebelum penuh. Terhad.</p>
+                <button class="shop-now" onclick="document.querySelector('.categories-wrapper').scrollIntoView({behavior:'smooth'})">Tempah Sekarang</button>
+            </section>
+
+            <!-- CATEGORIES -->
+            <section class="categories-wrapper" id="categories-wrapper">
+                <div class="category-btn active" data-category="Semua">Semua</div>
+                <div class="category-btn" data-category="Bilik">Chalet & Bilik</div>
+                <div class="category-btn" data-category="Gazebo">Gazebo</div>
+                <div class="category-btn" data-category="Pakej">Pakej Aktiviti</div>
+            </section>
+
+            <!-- PRODUCT FEED -->
+            <section class="product-grid" id="product-grid">
+                <!-- Products dynamically injected via JS -->
+            </section>
+
+            <!-- CHALET INFO SECTION -->
+            <section class="info-section">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Maklumat Lengkap Chalet
+                </h3>
+                
+                <div class="info-block">
+                    <h4>Maklumat Homestay</h4>
+                    <p><strong>Nama homestay:</strong> D'Ketapang Chalet<br>
+                    Penginapan selesa yang sangat sesuai untuk percutian dan aktiviti santai.</p>
+                </div>
+
+                <div class="info-block">
+                    <h4>1. Maklumat Tempahan</h4>
+                    <ul>
+                        <li><strong>Waktu Check-in:</strong> 2.00 petang</li>
+                        <li><strong>Waktu Check-out:</strong> 12.00 tengah hari</li>
+                        <li><strong>Maksimum tetamu:</strong> 10 orang dewasa</li>
+                        <li><strong>Bilik tidur:</strong> 2 bilik tidur</li>
+                        <li><strong>Katil:</strong> 2 katil saiz Queen</li>
+                        <li><strong>Bilik air:</strong> 1 bilik air dan tandas</li>
+                    </ul>
+                </div>
+
+                <div class="info-block">
+                    <h4>2. Harga</h4>
+                    <ul>
+                        <li><strong>Harga:</strong> Mengikut pilihan rumah chalet</li>
+                        <li><strong>Deposit:</strong> RM 50.00</li>
+                        <li><strong>Caj tambahan:</strong> Toto RM 10.00 , Peralatan BBQ RM 20.00 (termasuk arang)</li>
+                    </ul>
+                </div>
+
+                <div class="info-block">
+                    <h4>3. Kemudahan</h4>
+                    <div class="amenities-grid">
+                        <span>✅ WiFi</span>
+                        <span>✅ Aircond</span>
+                        <span>✅ Digital TV</span>
+                        <span>✅ Iron</span>
+                        <span>✅ Peti sejuk</span>
+                        <span>✅ BBQ</span>
+                        <span>✅ Parking</span>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>4. Pembayaran</h4>
+                    <ul>
+                        <li><strong>Nama penerima:</strong> Norazilah binti Dollah</li>
+                        <li><strong>Nama bank:</strong> CIMB Bank</li>
+                        <li><strong>Nombor akaun:</strong> 7610818164</li>
+                    </ul>
+                </div>
+
+                <div class="info-block">
+                    <h4>5. WhatsApp</h4>
+                    <p><strong>Nombor owner chalet:</strong> 013-9188230</p>
+                </div>
+            </section>
+
+            <!-- GOOGLE MAPS SECTION -->
+            <section class="map-section">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Lokasi Kami
+                </h3>
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=D'Ketapang%20Chalet&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </section>
+
+            <!-- REVIEW & RATING SECTION -->
+            <section class="reviews-section">
+                <h3>Ulasan & Rating Pelanggan</h3>
+                
+                <form class="review-form" id="submit-review-form">
+                    <div class="star-rating" id="star-rating">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="rating-value" value="0">
+                    <input type="text" id="reviewer-name" placeholder="Nama anda" required>
+                    <textarea id="review-text" placeholder="Kongsi pengalaman anda di sini..." required></textarea>
+                    <button type="submit" class="review-submit-btn">Hantar Ulasan</button>
+                </form>
+
+                <div class="review-list" id="review-list">
+                    <!-- Mock Review 1 -->
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="reviewer-name">Nurul Huda</span>
+                            <span class="review-stars">★★★★★</span>
+                        </div>
+                        <div class="review-text">Sangat selesa dan berbaloi. Pemandangan pantai memang cantik terutamanya waktu petang. Akan repeat lagi!</div>
+                    </div>
+                    <!-- Mock Review 2 -->
+                    <div class="review-item" style="padding-top: 10px; border-top: 1px solid #F1F1F2;">
+                        <div class="review-header">
+                            <span class="reviewer-name">Azman Rosli</span>
+                            <span class="review-stars">★★★★☆</span>
+                        </div>
+                        <div class="review-text">Bilik bersih, kemudahan lengkap. Sangat sesuai untuk percutian keluarga. BBQ spot pun strategik.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Utama</span>
+            </div>
+            <div class="nav-item" onclick="showMsg('Fungsi Katalog akan datang')">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Katalog</span>
+            </div>
+            <div class="nav-item" onclick="showMsg('Tekan pada gambar bilik untuk mesej/tempahan')">
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>Mesej</span>
+            </div>
+            <div class="nav-item" onclick="showMsg('Fungsi Profil akan datang')">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Profil</span>
+            </div>
+        </nav>
+
+        <!-- FULLSCREEN PRODUCT MODAL (IMAGE + FORM) -->
+        <div class="product-modal" id="product-modal">
+            <div class="pm-header">
+                <span id="pm-header-title">Butiran</span>
+                <button class="close-btn" onclick="closeProductModal()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="pm-content">
+                <div class="pm-gallery" id="pm-gallery">
+                    <!-- Images Injected Dynamically -->
+                </div>
+                <div class="pm-details">
+                    <div class="pm-title" id="pm-title">-</div>
+                    <div class="pm-price" id="pm-price">-</div>
+                    
+                    <form class="pm-form" id="booking-form" onsubmit="submitDirectBooking(event)">
+                        <div class="pm-form-group">
+                            <label>Nama Anda</label>
+                            <input type="text" id="form-nama" placeholder="Sila masukkan nama" required>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <div class="pm-form-group" style="flex:1;">
+                                <label>Tarikh Check-in</label>
+                                <input type="date" id="form-checkin" required>
+                            </div>
+                            <div class="pm-form-group" style="flex:1;">
+                                <label>Tarikh Check-out</label>
+                                <input type="date" id="form-checkout" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="pm-submit-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            Tempah Sekarang
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOAST -->
+        <div class="toast" id="toast">Berjaya!</div>
+
+    </div>
+
+    <!-- === JAVASCRIPT LOGIC === -->
+    <script>
+        // --- 1. MOCK DATA (Produk DKetapang) ---
+        const products = [
+            {
+                id: 1,
+                name: "Rumah Merah", 
+                category: "Bilik",
+                price: 150,
+                originalPrice: 300,
+                sold: 215,
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                badge: "Laris 🔥",
+                badgeIcon: '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
+            },
+            {
+                id: 2,
+                name: "Rumah Hijau", 
+                category: "Bilik",
+                price: 150,
+                originalPrice: 180,
+                sold: 432,
+                rating: "4.8",
+                image: "1000732377.jpg", 
+                images: [
+                    "1000732377.jpg",
+                    "1000732381.jpg",
+                    "1000732378.jpg",
+                    "1000732379.jpg",
+                    "1000732380.jpg"
+                ],
+                badge: "Free WiFi",
+                badgeIcon: '<svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0 M1.42 9a16 16 0 0121.16 0 M8.53 16.11a6 6 0 016.95 0 M12 20h.01"/></svg>'
+            },
+            {
+                id: 3,
+                name: "Rumah Kelabu", 
+                category: "Gazebo",
+                price: 220,
+                originalPrice: null,
+                sold: 120,
+                rating: "4.7",
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                badge: "Seaview",
+                badgeIcon: '<svg viewBox="0 0 24 24"><path d="M2 12h20 M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10 15.3 15.3 0 004-10 15.3 15.3 0 00-4-10z"/></svg>'
+            },
+            {
+                id: 4,
+                name: "Rumah Biru", 
+                category: "Bilik",
+                price: 220,
+                originalPrice: null,
+                sold: 564,
+                rating: "4.5",
+                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                badge: "Murah",
+                badgeIcon: '<svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>'
+            },
+            {
+                id: 5,
+                name: "Rumah Kuning", 
+                category: "Bilik",
+                price: 150,
+                originalPrice: 420,
+                sold: 89,
+                rating: "5.0",
+                image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                badge: "Premium",
+                badgeIcon: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
+            },
+            {
+                id: 6,
+                name: "Rumah Pink", 
+                category: "Pakej",
+                price: 150,
+                originalPrice: 150,
+                sold: 340,
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                badge: "Aktiviti",
+                badgeIcon: '<svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>'
+            }
+        ];
+
+        // --- 2. APP STATE ---
+        let currentCategory = "Semua";
+        let currentViewProductId = null; 
+
+        // --- 3. DOM ELEMENTS ---
+        const productGrid = document.getElementById('product-grid');
+        const searchInput = document.getElementById('search-input');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const toast = document.getElementById('toast');
+
+        // --- 4. RENDER ENGINE ---
+        function renderProducts(items) {
+            productGrid.innerHTML = '';
+            
+            if (items.length === 0) {
+                productGrid.innerHTML = `
+                    <div style="grid-column: span 2; text-align:center; padding: 40px 0; color: var(--text-muted);">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:10px; opacity:0.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><br>
+                        Tiada produk dijumpai.
+                    </div>`;
+                return;
+            }
+
+            items.forEach(product => {
+                const originalPriceHtml = product.originalPrice ? `<span class="original-price">RM${product.originalPrice}</span>` : '';
+                
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = () => openProductModal(product.id);
+                card.innerHTML = `
+                    <div class="product-image-wrapper">
+                        <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
+                        ${product.badge ? `<div class="badge-overlay">${product.badgeIcon} ${product.badge}</div>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="price-row">
+                            <span class="product-price">RM${product.price}</span>
+                            ${originalPriceHtml}
+                        </div>
+                        <div class="product-meta">
+                            <span class="rating">⭐ ${product.rating}</span>
+                            <span class="sold">${product.sold} Terjual</span>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+        }
+
+        // --- 5. CATEGORY & SEARCH FILTER ---
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                filterAndRender();
+            });
+        });
+
+        searchInput.addEventListener('input', filterAndRender);
+
+        function filterAndRender() {
+            const query = searchInput.value.toLowerCase();
+            const filtered = products.filter(p => {
+                const matchCat = currentCategory === 'Semua' || p.category === currentCategory;
+                const matchSearch = p.name.toLowerCase().includes(query);
+                return matchCat && matchSearch;
+            });
+            renderProducts(filtered);
+        }
+
+        // --- 6. DIRECT BOOKING MODAL LOGIC ---
+        function openProductModal(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            currentViewProductId = id;
+            
+            const gallery = document.getElementById('pm-gallery');
+            gallery.innerHTML = '';
+            
+            const imageList = product.images || [product.image];
+            imageList.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                gallery.appendChild(img);
+            });
+
+            document.getElementById('pm-header-title').textContent = product.name;
+            document.getElementById('pm-title').textContent = product.name;
+            document.getElementById('pm-price').textContent = `RM${product.price} / Malam`;
+
+            document.getElementById('booking-form').reset();
+            document.getElementById('product-modal').classList.add('open');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.remove('open');
+            currentViewProductId = null;
+        }
+
+        function submitDirectBooking(e) {
+            e.preventDefault();
+            
+            const product = products.find(p => p.id === currentViewProductId);
+            if(!product) return;
+
+            const nama = document.getElementById('form-nama').value;
+            const checkin = document.getElementById('form-checkin').value;
+            const checkout = document.getElementById('form-checkout').value;
+
+            let msg = `*TEMPAHAN LANGSUNG - DKETAPANG CHALET* 🏖️\n\n`;
+            msg += `Item: *${product.name}*\n`;
+            msg += `Harga: RM${product.price} / Malam\n\n`;
+            msg += `Nama: ${nama}\n`;
+            msg += `Check-in: ${checkin}\n`;
+            msg += `Check-out: ${checkout}\n\n`;
+            msg += `Boleh saya tahu jika ada kekosongan untuk tarikh ini? Terima kasih!`;
+
+            const phone = "60123574916";
+            const encodedMsg = encodeURIComponent(msg);
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMsg}`;
+
+            closeProductModal();
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // --- 7. STAR RATING & REVIEW SUBMISSION LOGIC ---
+        const stars = document.querySelectorAll('#star-rating span');
+        const ratingInput = document.getElementById('rating-value');
+        const reviewForm = document.getElementById('submit-review-form');
+        const reviewList = document.getElementById('review-list');
+
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                const value = parseInt(e.target.getAttribute('data-value'));
+                ratingInput.value = value;
+                
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-value')) <= value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const rating = parseInt(ratingInput.value);
+            if (rating === 0) {
+                showMsg('Sila berikan rating bintang (Star).');
+                return;
+            }
+
+            const name = document.getElementById('reviewer-name').value;
+            const text = document.getElementById('review-text').value;
+
+            let starsHtml = '';
+            for(let i = 0; i < 5; i++) {
+                starsHtml += (i < rating) ? '★' : '☆';
+            }
+
+            const newReview = document.createElement('div');
+            newReview.className = 'review-item';
+            newReview.style.paddingTop = '10px';
+            newReview.style.borderTop = '1px solid #F1F1F2';
+            newReview.innerHTML = `
+                <div class="review-header">
+                    <span class="reviewer-name">${name}</span>
+                    <span class="review-stars">${starsHtml}</span>
+                </div>
+                <div class="review-text">${text}</div>
+            `;
+
+            reviewList.prepend(newReview);
+            reviewForm.reset();
+            ratingInput.value = 0;
+            stars.forEach(s => s.classList.remove('active'));
+
+            showMsg('Terima kasih atas ulasan anda!');
+        });
+
+        // --- 8. UTILS ---
+        let toastTimeout;
+        function showMsg(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize App
+        renderProducts(products);
+
+    </script>
+</body>
+</html>>
+roductModal();
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // --- 8. UTILS ---
+        let toastTimeout;
+        function showMsg(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize App
+        renderProducts(products);
+        updateCartUI();
+
+    </script>
+</body>
+</html>
